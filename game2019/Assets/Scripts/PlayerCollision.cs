@@ -39,7 +39,7 @@ public class PlayerCollision : MonoBehaviour
             DeadScore1.gameObject.SetActive(false);
             DeadScore2.gameObject.SetActive(false);
             DeadScore3.gameObject.SetActive(false);
-            SceneManager.LoadScene(0);
+            //SceneManager.LoadScene(0);
             deadCount_ = 3;
         }
     }
