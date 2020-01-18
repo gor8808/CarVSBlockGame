@@ -3,33 +3,106 @@ using System;
 public class GameManagerForCubes : MonoBehaviour
 {
     public Transform Player;
+    public Transform Ground;
+    public Rigidbody Rb;
+    public Vector3 GroundOffset;
+    GameObject[] _sideWalks;
     GameObject[] _cubes;
+    GameObject[] _cubesPrefab;
+    int _difficultyIndex = Menu.DifficultyIndex;
     float _randomNumberX;
     float _randomNumberZ;
+    float _randomNumberY;
+    int _count = 10;
+    int _lastCordinate = 200;
+    float _beforeGen = 50f;
+    int _countAdd = 10;
+    int _maxCubesCount = 40;
+
+
+    int n = 1;
     void Start()
     {
-        _cubes = Resources.LoadAll<GameObject>("Obsticales");
-        GenCubes();
-
+        _cubesPrefab = Resources.LoadAll<GameObject>("Obsticales");
+        _sideWalks = GameObject.FindGameObjectsWithTag("SideWalk");
+        GenCubes(5f,200f,40);
+        switch (_difficultyIndex)
+        {
+            case 0:
+                for (int i = 0; i < _sideWalks.Length; i++)
+                {
+                    _sideWalks[i].transform.position =
+                        new Vector3(
+                            _sideWalks[i].transform.position.x,
+                            0.7f,
+                            _sideWalks[i].transform.position.z
+                        );
+                }
+                _beforeGen = 20f;
+                _countAdd = 5;
+                _maxCubesCount = 30;
+                break;
+            case 1:
+                for (int i = 0; i < _sideWalks.Length; i++)
+                {
+                    _sideWalks[i].transform.position =
+                        new Vector3(
+                            _sideWalks[i].transform.position.x,
+                            0.5f,
+                            _sideWalks[i].transform.position.z
+                        );
+                }
+                _beforeGen = 20f;
+                _countAdd = 7;
+                _maxCubesCount = 35;
+                break;
+            case 2:
+                for (int i = 0; i < _sideWalks.Length; i++)
+                {
+                    Destroy(_sideWalks[i]);
+                }
+                _beforeGen = 20f;
+                _countAdd = 10;
+                _maxCubesCount = 45;
+                break;
+        }
     }
     void FixedUpdate()
     {
+        Ground.transform.position =
+           new Vector3(
+           Ground.transform.position.x,
+           Ground.transform.position.y,
+           Player.transform.position.z - GroundOffset.z
+        );
         int cordinateZ = Convert.ToInt32(Player.position.z);
-        if(cordinateZ % 200 == 0)
-        {
-            Debug.Log(cordinateZ);
+        if (n % 2 == 0) 
+            PlayerMovement.MovementSpeed = 5f;
+        else
+            PlayerMovement.MovementSpeed = 800f;
+        if (cordinateZ > _lastCordinate * n)
+        {   
+            _cubes = GameObject.FindGameObjectsWithTag("Obstacle");
+            Debug.Log($"Destroying {_cubes.Length} obstacles");
+            for (int i = 0; i < _cubes.Length; i++)
+            {
+                Destroy(_cubes[i]);
+            }
+            if (_count > _maxCubesCount)
+                _count = _countAdd;
+            GenCubes((_lastCordinate * n) + _beforeGen, ((n + 1) * 200f) + _beforeGen, _count += _countAdd);
+            n++;
         }
-        //Debug.Log(Player.position.z);
     }
-    void GenCubes()
+    void GenCubes(float start,float end,int count)
     {
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < count; i++)
         {
-
             _randomNumberX = UnityEngine.Random.Range(-6.22f, 7.253f);
-            _randomNumberZ = UnityEngine.Random.Range(5f, 300f);
-            Vector3 position = new Vector3(_randomNumberX, 1f, _randomNumberZ);
-            Instantiate(_cubes[0], position, Quaternion.identity);
+            _randomNumberY = UnityEngine.Random.Range(1f, 30f);
+            _randomNumberZ = UnityEngine.Random.Range(start, end);
+            Vector3 position = new Vector3(_randomNumberX, _randomNumberY, _randomNumberZ);
+            Instantiate(_cubesPrefab[0], position, Quaternion.identity);
         }
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Car
   - Score
   - RawImage
+  - SideWalk
   layers:
   - Default
   - TransparentFX

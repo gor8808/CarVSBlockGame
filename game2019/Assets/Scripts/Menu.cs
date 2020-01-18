@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
+    public Dropdown Difficulty;
     public Dropdown CarDropdown;
     public static int ShowCarIndex = 0;
-    public Toggle Toggle;
+    public static int DifficultyIndex = 0;
+    //public Toggle Toggle;
     Material[] _material;
     GameObject[] _loadedCarsObjectArr;
     int randomNumber;
@@ -19,6 +21,11 @@ public class Menu : MonoBehaviour
     void Update()
     {
         randomNumber = Random.Range(0, _loadedCarsObjectArr.Length);   
+    }
+    public void SetDifficulty()
+    {
+        DifficultyIndex = Difficulty.value;
+        Debug.Log(DifficultyIndex);
     }
     public void StartGame()
     {
