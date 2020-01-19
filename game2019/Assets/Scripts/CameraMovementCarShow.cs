@@ -1,13 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraMovementCarShow : MonoBehaviour
 {
+    public Text RotateByArrowsText; 
     public float speed = 20.0f;
     public bool AutoRotate = false;
+    bool _musicIsMuted = Menu.MusicIsMuted;
     void Update()
     {
+        if (_musicIsMuted)
+        {
+            AudioListener.volume = 0f;
+        }
+        else
+        {
+            AudioListener.volume = 1f;
+        }
         if (Input.GetKey("r"))
         {
             AutoRotate = true;
@@ -31,15 +40,21 @@ public class CameraMovementCarShow : MonoBehaviour
             {
                 transform.Rotate(0, -speed * Time.deltaTime, 0);
             }
-            if (Input.GetKey("w") || Input.GetKey("up"))
-            {
-                transform.Translate(speed * Time.deltaTime, 0, 0);
-            }
-            if (Input.GetKey("s") || Input.GetKey("down"))
-            {
-                transform.Translate(-speed * Time.deltaTime, 0, 0);
-            }
         }
+
+    }
+    public void RotateByArrows()
+    {
+        if (AutoRotate)
+        {
+            RotateByArrowsText.text = "Auto Rotate";
+        }
+        else
+        {
+            RotateByArrowsText.text = "Rotate by arrows";
+
+        }
+        AutoRotate = !AutoRotate;
 
     }
 }

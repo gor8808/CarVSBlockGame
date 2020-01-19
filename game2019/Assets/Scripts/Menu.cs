@@ -6,15 +6,17 @@ public class Menu : MonoBehaviour
 {
     public Dropdown Difficulty;
     public Dropdown CarDropdown;
+    public Text MuteButtonText;
     public static int ShowCarIndex = 0;
     public static int DifficultyIndex = 0;
+    public static bool MusicIsMuted = false;
     //public Toggle Toggle;
     Material[] _material;
     GameObject[] _loadedCarsObjectArr;
     int randomNumber;
     void Start()
     {
-        _loadedCarsObjectArr = Resources.LoadAll<GameObject>("PlayerNew");
+        _loadedCarsObjectArr = Resources.LoadAll<GameObject>("MainPlayer");
         _material = Resources.LoadAll<Material>("PlayerMaterial");
         
     }
@@ -32,7 +34,21 @@ public class Menu : MonoBehaviour
         ShowCarIndex = CarDropdown.value;
         SceneManager.LoadScene("level01");
     }
-    
+    public void MuteMusic()
+    {
+        if (MusicIsMuted)
+        {
+            AudioListener.volume = 1f;
+            MusicIsMuted = false;
+            MuteButtonText.text = "Mute Music";
+        }
+        else
+        {
+            MusicIsMuted = true;
+            AudioListener.volume = 0f;
+            MuteButtonText.text = "Play Music";
+        }
+    }
     public void SelectCar()
     {
         SceneManager.LoadScene("SelectCar");

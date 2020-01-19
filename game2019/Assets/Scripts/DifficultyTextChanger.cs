@@ -15,7 +15,7 @@ public class DifficultyTextChanger : MonoBehaviour
             case 1:
                 Difficulty.text = "Medium";
                 break;
-            case 2:
+            case 2  :
                 Difficulty.text = "Hard";
                 break;
         }

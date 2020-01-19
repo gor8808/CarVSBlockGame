@@ -10,7 +10,6 @@ public class PlayerCollision : MonoBehaviour
     public Rigidbody Rb;
     bool fall_ = false;
 
-    static int deadCount_ = 3;
     void Update()
     {
         
@@ -19,10 +18,8 @@ public class PlayerCollision : MonoBehaviour
     {
         if (Rb.position.y < 0.9f && !fall_)
         {
-            deadCount_ -= 1;
             Movement.enabled = false;
             ScoreData.enabled = false;
-            Debug.Log(deadCount_);
             fall_ = true;
             FindObjectOfType<GameManager>().EndGame();
 
@@ -33,10 +30,8 @@ public class PlayerCollision : MonoBehaviour
         
         if (info.collider.tag == "Obstacle")
 		{
-            deadCount_ -= 1;
             Movement.enabled = false;
             ScoreData.enabled = false;
-            Debug.Log(deadCount_);
 			FindObjectOfType<GameManager>().EndGame();	
 		}
 	}
