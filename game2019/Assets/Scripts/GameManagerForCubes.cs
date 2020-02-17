@@ -25,7 +25,7 @@ public class GameManagerForCubes : MonoBehaviour
     {
         _cubesPrefab = Resources.LoadAll<GameObject>("Obsticales");
         _sideWalks = GameObject.FindGameObjectsWithTag("SideWalk");
-        GenCubes(5f,200f,40);
+        GenCubes(Player.transform.position.z + 10, 200, 10);
         switch (_difficultyIndex)
         {
             case 0:
@@ -40,7 +40,7 @@ public class GameManagerForCubes : MonoBehaviour
                 }
                 _beforeGen = 20f;
                 _countAdd = 5;
-                _maxCubesCount = 30;
+                _maxCubesCount = 20;
                 break;
             case 1:
                 for (int i = 0; i < _sideWalks.Length; i++)
@@ -54,7 +54,7 @@ public class GameManagerForCubes : MonoBehaviour
                 }
                 _beforeGen = 20f;
                 _countAdd = 7;
-                _maxCubesCount = 35;
+                _maxCubesCount = 25;
                 break;
             case 2:
                 for (int i = 0; i < _sideWalks.Length; i++)
@@ -63,7 +63,7 @@ public class GameManagerForCubes : MonoBehaviour
                 }
                 _beforeGen = 20f;
                 _countAdd = 10;
-                _maxCubesCount = 45;
+                _maxCubesCount = 35;
                 break;
         }
     }
@@ -84,7 +84,7 @@ public class GameManagerForCubes : MonoBehaviour
         {   
             _cubes = GameObject.FindGameObjectsWithTag("Obstacle");
             Debug.Log($"Destroying {_cubes.Length} obstacles");
-            for (int i = 0; i < _cubes.Length; i++)
+            for (int i = 0; i < _cubes.Length - _count; i++)
             {
                 Destroy(_cubes[i]);
             }
@@ -98,8 +98,8 @@ public class GameManagerForCubes : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            _randomNumberX = UnityEngine.Random.Range(-6.22f, 7.253f);
-            _randomNumberY = UnityEngine.Random.Range(1f, 30f);
+            _randomNumberX = UnityEngine.Random.Range(-7f, 8f);
+            _randomNumberY = UnityEngine.Random.Range(10f, 30f);
             _randomNumberZ = UnityEngine.Random.Range(start, end);
             Vector3 position = new Vector3(_randomNumberX, _randomNumberY, _randomNumberZ);
             Instantiate(_cubesPrefab[0], position, Quaternion.identity);

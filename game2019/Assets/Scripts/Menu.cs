@@ -34,6 +34,16 @@ public class Menu : MonoBehaviour
         ShowCarIndex = CarDropdown.value;
         SceneManager.LoadScene("level01");
     }
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+    public void OpenGAI()
+    {
+        Debug.Log("OpenGAI");
+        Application.OpenURL("https://www.instagram.com/gai.project/");
+
+    }
     public void MuteMusic()
     {
         if (MusicIsMuted)
